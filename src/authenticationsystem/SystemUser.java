@@ -1,4 +1,4 @@
-package zooauthenticationsystem;
+package authenticationsystem;
 
 /**
  *This public class holds the userName and role of authenticated users

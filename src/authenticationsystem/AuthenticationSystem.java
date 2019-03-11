@@ -1,4 +1,4 @@
-package zooauthenticationsystem;
+package authenticationsystem;
 
 import java.io.BufferedReader;
 import java.security.MessageDigest;
@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
  * authority to perform certain actions based on their assigned role.
  * @author Kevin Tooley
  */
-public class ZooAuthenticationSystem {
+public class AuthenticationSystem {
 
     static SystemUser user = new SystemUser();  //Initialize SystemUser class
     static final String USER_DIR = System.getProperty("user.dir");  //Directory path for support files
@@ -28,15 +28,10 @@ public class ZooAuthenticationSystem {
         String userPassword = "";  //Holds the scanner input
         
         boolean remainOnline = true;  //Setting to false will log off user
-            
-        //System.out.println("Authenticate User: " + authenticateUser(scnr, userName, userPassword));
-        //System.out.println("Directory: " + USER_DIR);
     
         if (authenticateUser(scnr, userName, userPassword)) {  //If authentication is successful
             
-            //System.out.println("User Name: " + user.getUserName());
-            //System.out.println("User Role: " + user.getMyRole());
-            
+        	// TODO:  Add template to make this algorithm generic
             switch (user.getMyRole()) {  //get role information based on credentials
                 case "admin": 
                     getRoleFile("admin");
@@ -120,11 +115,8 @@ public class ZooAuthenticationSystem {
                     byte[] digest = md.digest();
                     StringBuffer sb = new StringBuffer();
                     for (byte b : digest) {
-                            sb.append(String.format("%02x", b & 0xff));
+                    	sb.append(String.format("%02x", b & 0xff));
                     }
-                    //DEGUG prints
-                    //System.out.println("original:" + original);
-                    //System.out.println("digested:" + sb.toString()); //sb.toString() is what you'll need to compare password strings
 
                     if (verifyCredentials(userName, sb.toString())) {  //if userName and password(hash) are valid
                         
@@ -165,27 +157,13 @@ public class ZooAuthenticationSystem {
         boolean foundUserName = false;  //Condition for while loop
         boolean isValid = false;  //Return value; true if validated credentials
         String[] userCredentials = new String[4];  //holds credentials of validated userName
-        //final String USER_DIR = System.getProperty("user.dir");  //Directory path for support files
-        
-        //System.out.println("USER_DIR: " + USER_DIR);
         
         FileInputStream fileByteStream = null; // Initialize file input stream
         Scanner inFS = null;  //Initialize an input file stream scanner
         
-        //System.out.println("Opening file...");
         try {
-
-            //fileByteStream = new FileInputStream(USER_DIR + "\\src\\zooauthenticationsystem\\CredentialsFile");
-            /*if (USER_DIR.contains("/")) {
-                //fileByteStream = new FileInputStream(USER_DIR + "/src/zooauthenticationsystem/CredentialsFile");
-                //fileByteStream = new FileInputStream(USER_DIR + "/CredentialsFile");
-                fileByteStream = new FileInputStream("CredentialsFile");
-            }
-            else {
-                //fileByteStream = new FileInputStream(USER_DIR + "\\src\\zooauthenticationsystem\\CredentialsFile");
-                fileByteStream = new FileInputStream(USER_DIR + "\\CredentialsFile");
-            }*/
-            fileByteStream = new FileInputStream("CredentialsFile");
+        	
+            fileByteStream = new FileInputStream(USER_DIR + "/src/CredentialsFile");
             inFS = new Scanner(fileByteStream);
             
         } catch (Exception ex) {
@@ -199,13 +177,10 @@ public class ZooAuthenticationSystem {
             
             String currentLine = "";  //Initialize a temporary string for the scanner
             currentLine = inFS.nextLine();  //copy the scanner input
-            //System.out.println("currentLine: " + currentLine);  
             
             if (currentLine.contains(thisUserName)) { //if userName is in credential file
                 
                 foundUserName = true;
-                //System.out.println("FOUND THE USER");
-                //System.out.println("currentLine: " + currentLine);  
                 
                 if (currentLine.contains(thisUserPassword)) {  //if password(hash) is correct for valid userName
                     
@@ -215,19 +190,11 @@ public class ZooAuthenticationSystem {
                     user.setMyRole(userCredentials[3]);
                     System.out.println("");
                     
-                    /*
-                    int i;
-                    for (i = 0; i < userCredentials.length; i++) {
-                        System.out.println("userCredentials Array: " + userCredentials[i]);
-
-                    }
-                    */
                 }
                 
             }
         }
         
-        //System.out.println("Closing file...");
         try {
             
             fileByteStream.close();  //Close the credential file
