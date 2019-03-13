@@ -6,8 +6,6 @@ package authenticationsystem;
  */
 public class SystemUser {
     
-    //public enum UserRole {ZOOKEEPER, VETERINARIAN, ADMIN}
-    
     private static String userName;
     private static String myRole;
     
