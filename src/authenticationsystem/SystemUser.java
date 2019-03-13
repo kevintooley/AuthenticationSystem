@@ -6,8 +6,6 @@ package authenticationsystem;
  */
 public class SystemUser {
     
-    //public enum UserRole {ZOOKEEPER, VETERINARIAN, ADMIN}
-    
     private static String userName;
     private static String myRole;
     
@@ -22,7 +20,7 @@ public class SystemUser {
      * Mutator method to set the private member userName
      * @param thisUserName pass in userName
      */
-    public static void setUserName(String thisUserName) {
+    public void setUserName(String thisUserName) {
         userName = thisUserName;
     }
     

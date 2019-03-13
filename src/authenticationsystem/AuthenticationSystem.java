@@ -29,7 +29,7 @@ public class AuthenticationSystem {
         
         boolean remainOnline = true;  //Setting to false will log off user
     
-        if (authenticateUser(scnr, userName, userPassword)) {  //If authentication is successful
+        if (authenticateUser(scnr, userName, userPassword, false)) {  //If authentication is successful
             
         	// TODO:  Add template to make this algorithm generic
             switch (user.getMyRole()) {  //get role information based on credentials
@@ -87,7 +87,7 @@ public class AuthenticationSystem {
      * @return passwordMatch
      * @see verifyCredentials
      */
-    public static boolean authenticateUser(Scanner thisScanner, String userName, String userPassword) {
+    public static boolean authenticateUser(Scanner thisScanner, String userName, String userPassword, boolean isUnitTest) {
         
         //boolean userNameMatch = false;
         boolean passwordMatch = false;  //set to true when user is authenticated
@@ -99,13 +99,18 @@ public class AuthenticationSystem {
                 System.exit(0);
             }
             else {
-                System.out.print("User Name: ");
-                userName = thisScanner.next();  //next() vice nextLine(): no spaces in username
                 
-                thisScanner.nextLine(); //consume the hanging /n
+                if (!isUnitTest) {
+                	System.out.print("User Name: ");
+                	userName = thisScanner.next();  //next() vice nextLine(): no spaces in username
+                	thisScanner.nextLine(); //consume the hanging /n
+                }
                 
-                System.out.print("User Password: ");
-                userPassword = thisScanner.nextLine();
+                if (!isUnitTest) {
+                	System.out.print("User Password: ");
+                	userPassword = thisScanner.nextLine();
+                	thisScanner.nextLine(); // consume the hanging /n
+                }
                 
                 //Convert the password to MD5 hash for evaluation against Credentials File
                 try {
