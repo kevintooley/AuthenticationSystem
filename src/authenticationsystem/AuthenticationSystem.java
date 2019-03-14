@@ -34,13 +34,13 @@ public class AuthenticationSystem {
         	// TODO:  Add template to make this algorithm generic
             switch (user.getMyRole()) {  //get role information based on credentials
                 case "admin": 
-                    getRoleFile("admin");
+                    getRoleFile(USER_DIR + "/src/admin");
                     break;
                 case "zookeeper":
-                    getRoleFile("zookeeper");
+                    getRoleFile(USER_DIR + "/src/zookeeper");
                     break;
                 case "veterinarian":
-                    getRoleFile("veterinarian");
+                    getRoleFile(USER_DIR + "/src/veterinarian");
                     break;
                 default:
                     System.out.println("Please contact the system administrator to get the proper permissions.");
@@ -109,7 +109,6 @@ public class AuthenticationSystem {
                 if (!isUnitTest) {
                 	System.out.print("User Password: ");
                 	userPassword = thisScanner.nextLine();
-                	thisScanner.nextLine(); // consume the hanging /n
                 }
                 
                 //Convert the password to MD5 hash for evaluation against Credentials File
