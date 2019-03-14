@@ -109,7 +109,6 @@ public class AuthenticationSystem {
                 if (!isUnitTest) {
                 	System.out.print("User Password: ");
                 	userPassword = thisScanner.nextLine();
-                	thisScanner.nextLine(); // consume the hanging /n
                 }
                 
                 //Convert the password to MD5 hash for evaluation against Credentials File
