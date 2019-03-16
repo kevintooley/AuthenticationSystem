@@ -31,22 +31,11 @@ public class AuthenticationSystem {
     
         if (authenticateUser(scnr, userName, userPassword, false)) {  //If authentication is successful
             
-        	// TODO:  Add template to make this algorithm generic
-            switch (user.getMyRole()) {  //get role information based on credentials
-                case "admin": 
-                    getRoleFile(USER_DIR + "/src/admin");
-                    break;
-                case "zookeeper":
-                    getRoleFile(USER_DIR + "/src/zookeeper");
-                    break;
-                case "veterinarian":
-                    getRoleFile(USER_DIR + "/src/veterinarian");
-                    break;
-                default:
-                    System.out.println("Please contact the system administrator to get the proper permissions.");
-                    System.exit(0);
-                
-            }
+        	/*
+        	 * Now that the user is authenticated, pass the user role to the pickRoleFile
+        	 * method which will retrieve the role config file and print it
+        	 */
+        	System.out.println(getRoleFile(user.getMyRole()));
             
             while (remainOnline) { //Menu Loops while user selects anything other than q (quit)
                 String prompt = "";
@@ -213,38 +202,31 @@ public class AuthenticationSystem {
     }
     
     /**
-     * This function initializes a BufferedReader (reader) and reads each line of the file.  
-     * @param myRoleFile Pass in role file to parse
+     * This function initializes a BufferedReader (reader) and reads each line of the
+     * configuration file associated with the user role.  
+     * Each line is passed into the returnValue string, eventually returned
+     * @param role String
+     * @return returnValue String
      */
-    public static void getRoleFile(String myRoleFile) {
+    public static String getRoleFile(String role) {
         
+    	String returnValue = "";
+    	
         //Initialize bufferedReader for the file
         try {
-            //BufferedReader reader = new BufferedReader(new FileReader(USER_DIR + "/src/zooauthenticationsystem/" + myRoleFile));
-            /*if (USER_DIR.contains("/")) {
-                //BufferedReader reader = new BufferedReader(new FileReader(USER_DIR + "/" + myRoleFile));
-                BufferedReader reader = new BufferedReader(new FileReader(myRoleFile));
-                String line = null;
-                while ((line = reader.readLine()) != null) { //Loop until end of file
-                    System.out.println(line);
-                }
-            }
-            else {
-                BufferedReader reader = new BufferedReader(new FileReader(USER_DIR + "\\" + myRoleFile));
-                String line = null;
-                while ((line = reader.readLine()) != null) { //Loop until end of file
-                    System.out.println(line);
-                }
-            }*/
-            BufferedReader reader = new BufferedReader(new FileReader(myRoleFile));
+            
+            BufferedReader reader = new BufferedReader(new FileReader(USER_DIR + "/src/" + role));
             String line = null;
             while ((line = reader.readLine()) != null) { //Loop until end of file
-                System.out.println(line);
+            	returnValue = returnValue + line + "\n";
             }
+            reader.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }
         System.out.println("");
+        
+        return returnValue;
         
     }
 

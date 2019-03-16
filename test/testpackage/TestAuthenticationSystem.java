@@ -34,9 +34,19 @@ class TestAuthenticationSystem {
 
 	}
 
-	/*@Test
+	@Test
 	void testGetRoleFile() {
-		fail("Not yet implemented");
-	}*/
+		//AuthenticationSystem as = new AuthenticationSystem();a
+		
+		String result = AuthenticationSystem.getRoleFile("admin");
+		assertTrue(result.contains("System Admin"));
+		
+		result = AuthenticationSystem.getRoleFile("veterinarian");
+		assertTrue(result.contains("Veterinarian"));
+		
+		result = AuthenticationSystem.getRoleFile("zookeeper");
+		assertTrue(result.contains("Zookeeper"));
+
+	}
 
 }
