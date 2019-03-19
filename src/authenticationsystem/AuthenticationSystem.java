@@ -37,30 +37,15 @@ public class AuthenticationSystem {
         	 */
         	System.out.println(getRoleFile(user.getMyRole()));
             
+        	/*
+        	 * Loop through the menu while the remainOnline flag is set.  The printMenu method will 
+        	 * return false when the operator enters "q" for quit.
+        	 */
             while (remainOnline) { //Menu Loops while user selects anything other than q (quit)
-                String prompt = "";
-                System.out.println("*** SYSTEM MENU ***");
-                System.out.println("1 - Perform Task A");
-                System.out.println("2 - Perform Task B");
-                System.out.println("q - Quit");
-                System.out.println("Select and option: ");
-                prompt = scnr.nextLine();
-                switch (prompt) {
-                    case "1":
-                    case "2":  //Both Case 1 and 2 are stubbed out for future development
-                        System.out.println("");
-                        System.out.println("TODO - Finish Tasks");
-                        System.out.println("");
-                        break;
-                    case "q":
-                        remainOnline = false;
-                        System.out.println("");
-                        System.out.println("Quit.  Goodbye.");
-                        break;
-                    default:
-                        System.out.println("");
-                        System.out.println("Please enter a valid option...");
-                }
+                
+            	// Print the menu and evaluate remainOnline
+            	remainOnline = printMenu(scnr);
+            	
             }
             
         }
@@ -228,6 +213,38 @@ public class AuthenticationSystem {
         
         return returnValue;
         
+    }
+    
+    public static boolean printMenu(Scanner scnr) {
+    	
+    	boolean stayOnline = true;
+    	
+    	String prompt = "";
+        System.out.println("*** SYSTEM MENU ***");
+        System.out.println("1 - Perform Task A");
+        System.out.println("2 - Perform Task B");
+        System.out.println("q - Quit");
+        System.out.println("Select and option: ");
+        prompt = scnr.nextLine();
+        switch (prompt) {
+            case "1":
+            case "2":  //Both Case 1 and 2 are stubbed out for future development
+                System.out.println("");
+                System.out.println("TODO - Finish Tasks");
+                System.out.println("");
+                break;
+            case "q":
+                stayOnline = false;
+                System.out.println("");
+                System.out.println("Quit.  Goodbye.");
+                break;
+            default:
+                System.out.println("");
+                System.out.println("Please enter a valid option...");
+        }
+        
+        return stayOnline;
+    	
     }
 
 }
