@@ -2,6 +2,7 @@ package authenticationsystem;
 
 import java.io.BufferedReader;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -18,7 +19,8 @@ public class AuthenticationSystem {
     static final String USER_DIR = System.getProperty("user.dir");  //Directory path for support files
     
     /**
-     * @param args the command line arguments
+     * This is the main method that calls authenticateUser and the printMenu methods
+     * @param args command line arguments (none configured)
      */
     public static void main(String[] args) {
         
@@ -85,18 +87,15 @@ public class AuthenticationSystem {
                 	userPassword = thisScanner.nextLine();
                 }
                 
-                //Convert the password to MD5 hash for evaluation against Credentials File
-                try {
-                    String original = userPassword;
-                    MessageDigest md = MessageDigest.getInstance("MD5");
-                    md.update(original.getBytes());
-                    byte[] digest = md.digest();
-                    StringBuffer sb = new StringBuffer();
-                    for (byte b : digest) {
-                    	sb.append(String.format("%02x", b & 0xff));
-                    }
-
-                    if (verifyCredentials(userName, sb.toString())) {  //if userName and password(hash) are valid
+                /* 
+                 * Convert the password to MD5 hash for evaluation against Credentials File
+                 * First, create a string to hold the password hash, then pass the userName
+                 * and passwordHash to the verifyCredentials method
+                 */
+				try {
+					String passwordHash = ConvertToMD5Hash(userPassword);
+					
+                	if (verifyCredentials(userName, passwordHash)) {  //if userName and password(hash) are valid
                         
                         passwordMatch = true;
                         
@@ -108,15 +107,10 @@ public class AuthenticationSystem {
                         System.out.println("Invalid credentials...");
                         System.out.println("");
                     }
-                    
-                } catch (NoSuchElementException nElement) {  //triggered if userName is invalid
-                    loginAttempts++;
-                    System.out.println("Invalid credentials...");
-                    System.out.println("");
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-                
+					
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
             } 
         }
         
@@ -245,6 +239,20 @@ public class AuthenticationSystem {
         
         return stayOnline;
     	
+    }
+    
+    public static String ConvertToMD5Hash(String userPassword) throws NoSuchAlgorithmException {
+    	
+    	String original = userPassword;
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(original.getBytes());
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest) {
+        	sb.append(String.format("%02x", b & 0xff));
+        }
+        
+        return sb.toString();
     }
 
 }
