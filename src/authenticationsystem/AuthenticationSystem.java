@@ -209,6 +209,15 @@ public class AuthenticationSystem {
         
     }
     
+
+    /**
+     * This method is responsible for printing the user menu.
+     * 
+     * This menu is in draft form at this point and should be modified based on the user needs.
+     * 
+     * @param scnr Scanner
+     * @return boolean
+     */
     public static boolean printMenu(Scanner scnr) {
     	
     	boolean stayOnline = true;
@@ -241,6 +250,16 @@ public class AuthenticationSystem {
     	
     }
     
+    /**
+     * This method is responsible for converting a user password to MD5 hash and comparing this to a the user
+     * credentials file.  
+     * 
+     * The design of this method should be reworked as we do not want to send an unencrypted password over messages.  
+     * 
+     * @param userPassword string
+     * @return string md5 hash
+     * @throws NoSuchAlgorithmException
+     */
     public static String ConvertToMD5Hash(String userPassword) throws NoSuchAlgorithmException {
     	
     	String original = userPassword;
